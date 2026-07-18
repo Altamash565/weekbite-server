@@ -38,7 +38,9 @@ Routes
 */
 
 app.get("/api/v1/health", (_, res) => {
-  res.status(200).json({ message: "Welcome to the WeekBite API!" });
+  res.status(200).json({
+    success: true, 
+    message: "Welcome to the WeekBite API!" });
 });
 
 
