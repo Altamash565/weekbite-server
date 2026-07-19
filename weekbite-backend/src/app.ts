@@ -3,6 +3,9 @@ import cors from "cors";
 import helmet from "helmet";
 import cookieParser from "cookie-parser";
 
+import {notFound} from "./middleware/notFound.middleware";
+import {errorHandler} from "./middleware/error.middleware";
+
 const app = express();
 
 /*
@@ -10,6 +13,11 @@ const app = express();
 Global Middlewares
 |------------------------------------------------------------------------
 */
+
+
+app.use(notFound);
+
+app.use(errorHandler);
 
 //security headers
 app.use(helmet());
