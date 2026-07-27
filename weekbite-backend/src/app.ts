@@ -3,6 +3,9 @@ import cors from "cors";
 import helmet from "helmet";
 import cookieParser from "cookie-parser";
 
+
+import { env } from "./config/env";
+import { authRoutes } from "./modules/auth";
 import {notFound} from "./middleware/notFound.middleware";
 import {errorHandler} from "./middleware/error.middleware";
 
@@ -50,6 +53,8 @@ app.get("/api/v1/health", (_, res) => {
     success: true, 
     message: "Welcome to the WeekBite API!" });
 });
+
+app.use("/api/v1/auth", authRoutes)
 
 
 export default app;
