@@ -13,6 +13,16 @@ export class AuthRepository {
   async create(data: RegisterInput & { password: string }) {
     return prisma.user.create({
       data,
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        avatar: true,
+        role: true,
+        isVerified: true,
+        createdAt: true,
+        updatedAt: true,
+      }
     });
   }
 }

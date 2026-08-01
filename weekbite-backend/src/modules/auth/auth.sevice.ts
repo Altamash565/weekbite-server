@@ -24,8 +24,7 @@ export class AuthService {
     });
 
     // 4. Remove sensitive fields
-    const { password, refreshToken, ...safeUser } = user;
 
-    return safeUser;
+    return user;
   }
 }
