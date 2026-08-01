@@ -8,6 +8,7 @@ import { env } from "./config/env";
 import { authRoutes } from "./modules/auth";
 import {notFound} from "./middleware/notFound.middleware";
 import {errorHandler} from "./middleware/error.middleware";
+import { HTTP_STATUS } from "./constants/http";
 
 const app = express();
 
@@ -49,7 +50,7 @@ Routes
 */
 
 app.get("/api/v1/health", (_, res) => {
-  res.status(200).json({
+  res.status(HTTP_STATUS.OK).json({
     success: true, 
     message: "Welcome to the WeekBite API!" });
 });

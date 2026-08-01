@@ -1,6 +1,7 @@
 import type { NextFunction, Request, Response } from "express";
 import { AppError } from "../utils/AppError";
 import { logger } from "../lib/logger";
+import { HTTP_STATUS } from "../constants/http";
 
 export function errorHandler(
   err: Error,
@@ -17,7 +18,7 @@ export function errorHandler(
     });
   }
 
-  return res.status(500).json({
+  return res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json({
     success: false,
     message: "Internal Server Error",
   });
