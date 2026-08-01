@@ -1,5 +1,4 @@
-import { password } from "bun";
-import { email, z } from "zod";
+import { z } from "zod";
 
 export const registerSchema = z.object({
   name: z
