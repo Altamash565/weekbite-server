@@ -22,7 +22,37 @@ export class AuthRepository {
         isVerified: true,
         createdAt: true,
         updatedAt: true,
-      }
+      },
+    });
+  }
+
+  async findById(id: string) {
+    return prisma.user.findUnique({
+      where: {
+        id,
+      },
+    });
+  }
+
+  async updateHashedRefreshToken(userId: string, hashedRefreshToken: string) {
+    return prisma.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        hashedRefreshToken,
+      },
+    });
+  }
+
+  async clearRefreshToken(userId: string) {
+    return prisma.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        hashedRefreshToken: null,
+      },
     });
   }
 }
