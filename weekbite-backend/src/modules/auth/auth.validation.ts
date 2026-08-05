@@ -7,10 +7,7 @@ export const registerSchema = z.object({
     .min(3, "Name must be at least 3 characters long")
     .max(50),
 
-  email: z
-    .email("Invalid email address")
-    .trim()
-    .toLowerCase(),
+  email: z.string().trim().toLowerCase().email("Invalid email address"),
 
   password: z
     .string()
@@ -18,13 +15,11 @@ export const registerSchema = z.object({
     .max(100),
 });
 
-export const loginschema = z.object({
-  email: z.email("Invalid email address")
-  .trim()
-  .toLowerCase(),
+export const loginSchema = z.object({
+  email: z.string().trim().toLowerCase().email("Invalid email address"),
 
   password: z.string().min(8),
-})
+});
 
 export type RegisterInput = z.infer<typeof registerSchema>;
-export type LoginInput = z.infer<typeof loginschema>
+export type LoginInput = z.infer<typeof loginSchema>;
