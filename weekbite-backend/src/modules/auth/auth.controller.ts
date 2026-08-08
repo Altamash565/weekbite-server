@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import { AuthService } from "./auth.sevice";
+import { AuthService } from "./auth.service";
 import { ApiResponse } from "../../utils/ApiResponse";
 import { asyncHandler } from "../../utils/asyncHandler";
 import {HTTP_STATUS} from "../../constants/http";
