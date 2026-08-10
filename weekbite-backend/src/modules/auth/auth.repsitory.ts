@@ -31,6 +31,16 @@ export class AuthRepository {
       where: {
         id,
       },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        avatar: true,
+        role: true,
+        isVerified: true,
+        createdAt: true,
+        updatedAt: true,
+      },
     });
   }
 

@@ -68,4 +68,18 @@ export class AuthService {
       refreshToken: tokens.refreshToken,
     };
   }
+
+  async getMe(userId: string) {
+    const user = await this.repository.findByEmail(userId);
+
+    if (!user) {
+      throw new AppError(
+        "User not found",
+        HTTP_STATUS.UNAUTHORIZED,
+      );
+    }
+
+    return user;
+  }
+  
 }

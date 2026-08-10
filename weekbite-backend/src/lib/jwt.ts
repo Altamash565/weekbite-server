@@ -15,3 +15,17 @@ export function generateRefreshToken(payload: JwtPayload) {
     expiresIn: env.JWT_REFRESH_EXPIRES_IN as StringValue,
   });
 }
+
+export function verifyAccessToken(token: string) {
+  return jwt.verify(
+    token,
+    env.JWT_ACCESS_SECRET,
+  ) as JwtPayload;
+}
+
+export function verifyRefreshToken(token: string) {
+  return jwt.verify(
+    token,
+    env.JWT_REFRESH_SECRET,
+  ) as JwtPayload;
+}
