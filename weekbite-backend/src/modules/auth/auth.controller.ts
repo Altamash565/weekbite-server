@@ -30,4 +30,29 @@ export class AuthController {
       .status(HTTP_STATUS.OK)
       .json(new ApiResponse(true, "Login successfull", result.user));
   });
+
+  me = asyncHandler(async (req: Request, res: Response) => {
+    const user = await this.service.getMe(req.user!.userId);
+
+    res
+      .status(HTTP_STATUS.OK)
+      .json(new ApiResponse(true, "User fetched successfully", user));
+  });
+
+  refresh = asyncHandler(async (req: Request, res: Response) => {
+    const refreshToken = req.cookies?.refreshToken;
+
+    const tokens = await this.service.refresh(refreshToken);
+
+    res.cookie("accessToken", tokens.accessToken, accessTokenCookieOptions);
+
+    res.cookie("refreshToken", tokens.refreshToken, refreshTokenCookieOptions);
+
+    res
+      .status(HTTP_STATUS.OK)
+      .json(
+        new ApiResponse
+        (true, "Token refreshed successfully"),
+      )
+  });
 }

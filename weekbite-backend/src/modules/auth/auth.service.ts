@@ -4,6 +4,8 @@ import { AuthRepository } from "./auth.repsitory";
 import type { LoginInput, RegisterInput } from "./auth.validation";
 import { HTTP_STATUS } from "../../constants/http";
 import { createAuthTokens } from "./auth.tokens";
+import { verifyRefreshToken } from "../../lib/jwt";
+import type { JwtPayload } from "../../types/jwt.types";
 
 export class AuthService {
   private repository = new AuthRepository();
@@ -73,13 +75,49 @@ export class AuthService {
     const user = await this.repository.findByEmail(userId);
 
     if (!user) {
-      throw new AppError(
-        "User not found",
-        HTTP_STATUS.UNAUTHORIZED,
-      );
+      throw new AppError("User not found", HTTP_STATUS.UNAUTHORIZED);
     }
 
     return user;
   }
-  
+
+  async refresh(refreshToken: string) {
+    if (!refreshToken) {
+      throw new AppError("Refresh token is required", HTTP_STATUS.UNAUTHORIZED);
+    }
+
+    let payload: JwtPayload;
+
+    try {
+      payload = verifyRefreshToken(refreshToken);
+    } catch {
+      throw new AppError(
+        "Invalid or expired refresh token",
+        HTTP_STATUS.UNAUTHORIZED,
+      );
+    }
+
+    const user = await this.repository.findByEmail(payload.email);
+
+    if (!user || !user.hashedRefreshToken) {
+      throw new AppError("Invalid refresh token", HTTP_STATUS.UNAUTHORIZED);
+    }
+
+    const isValid = await bcrypt.compare(refreshToken, user.hashedRefreshToken);
+
+    if (!isValid) {
+      throw new AppError("Invalid refresh token", HTTP_STATUS.UNAUTHORIZED);
+    }
+
+    const tokens = await createAuthTokens({
+      userId: user.id,
+      email: user.email,
+      role: user.role,
+    });
+
+    await this.repository.updateHashedRefreshToken(
+      user.id,
+      tokens.hashedRefreshToken,
+    );
+  }
 }
