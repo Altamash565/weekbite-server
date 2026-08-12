@@ -119,5 +119,11 @@ export class AuthService {
       user.id,
       tokens.hashedRefreshToken,
     );
+
+    return tokens;
+  }
+
+  async logout(userId: string){
+    await this.repository.clearRefreshToken(userId);
   }
 }

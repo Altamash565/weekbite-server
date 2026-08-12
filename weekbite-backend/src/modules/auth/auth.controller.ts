@@ -5,6 +5,7 @@ import { asyncHandler } from "../../utils/asyncHandler";
 import { HTTP_STATUS } from "../../constants/http";
 import {
   accessTokenCookieOptions,
+  clearCookieOptions,
   refreshTokenCookieOptions,
 } from "../../constants/cookies";
 
@@ -50,9 +51,15 @@ export class AuthController {
 
     res
       .status(HTTP_STATUS.OK)
-      .json(
-        new ApiResponse
-        (true, "Token refreshed successfully"),
-      )
+      .json(new ApiResponse(true, "Token refreshed successfully"));
+  });
+
+  logout = asyncHandler(async (req: Request, res: Response) => {
+    await this.service.logout(req.user!.userId);
+
+    res.clearCookie("accessToken", clearCookieOptions);
+    res.clearCookie("refreshToken", clearCookieOptions);
+
+    res.status(HTTP_STATUS.OK).json(new ApiResponse(true, "Logout successful"));
   });
 }
