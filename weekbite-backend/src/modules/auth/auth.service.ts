@@ -72,7 +72,7 @@ export class AuthService {
   }
 
   async getMe(userId: string) {
-    const user = await this.repository.findByEmail(userId);
+    const user = await this.repository.findById(userId);
 
     if (!user) {
       throw new AppError("User not found", HTTP_STATUS.UNAUTHORIZED);
