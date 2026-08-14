@@ -57,7 +57,7 @@ export class AuthService {
     //5. Store hashed refresh token in database
     await this.repository.updateHashedRefreshToken(
       user.id,
-      tokens.hashedRefreshToken,
+      tokens.hashedRefreshToken
     );
 
     //6. Remove sensitive fields
@@ -93,7 +93,7 @@ export class AuthService {
     } catch {
       throw new AppError(
         "Invalid or expired refresh token",
-        HTTP_STATUS.UNAUTHORIZED,
+        HTTP_STATUS.UNAUTHORIZED
       );
     }
 
@@ -117,13 +117,13 @@ export class AuthService {
 
     await this.repository.updateHashedRefreshToken(
       user.id,
-      tokens.hashedRefreshToken,
+      tokens.hashedRefreshToken
     );
 
     return tokens;
   }
 
-  async logout(userId: string){
+  async logout(userId: string) {
     await this.repository.clearRefreshToken(userId);
   }
 }
