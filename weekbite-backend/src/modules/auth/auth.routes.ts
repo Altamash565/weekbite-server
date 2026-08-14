@@ -31,4 +31,10 @@ router.post(
     controller.refresh,
 )
 
+router.post(
+    "/logout",
+    authenticate,
+    controller.logout,
+)
+
 export default router;

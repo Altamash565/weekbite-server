@@ -18,11 +18,6 @@ Global Middlewares
 |------------------------------------------------------------------------
 */
 
-
-app.use(notFound);
-
-app.use(errorHandler);
-
 //security headers
 app.use(helmet());
 
@@ -38,10 +33,11 @@ app.use(cookieParser());
 //Allow frontend requests from different origins
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL,
+    origin: env.CLIENT_URL,
     credentials: true,
   }),
 );
+
 
 /*
 |------------------------------------------------------------------------
@@ -57,5 +53,10 @@ app.get("/api/v1/health", (_, res) => {
 
 app.use("/api/v1/auth", authRoutes)
 
+// Must come AFTER all routes
+app.use(notFound);
+
+// Must be the LAST middleware
+app.use(errorHandler);
 
 export default app;
