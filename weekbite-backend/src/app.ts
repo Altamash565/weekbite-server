@@ -6,6 +6,7 @@ import cookieParser from "cookie-parser";
 
 import { env } from "./config/env";
 import { authRoutes } from "./modules/auth";
+import { recipeRoutes } from "./modules/recipe";
 import {notFound} from "./middleware/notFound.middleware";
 import {errorHandler} from "./middleware/error.middleware";
 import { HTTP_STATUS } from "./constants/http";
@@ -52,6 +53,8 @@ app.get("/api/v1/health", (_, res) => {
 });
 
 app.use("/api/v1/auth", authRoutes)
+
+app.use("/api/v1/recipes", recipeRoutes);
 
 // Must come AFTER all routes
 app.use(notFound);

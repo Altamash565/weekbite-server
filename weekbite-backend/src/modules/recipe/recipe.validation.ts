@@ -1,7 +1,11 @@
 import { z } from "zod";
 
 export const createRecipeSchema = z.object({
-  title: z.string().trim().min(3, "Title must be at least 3 characters long").max(100),
+  title: z
+    .string()
+    .trim()
+    .min(3, "Title must be at least 3 characters long")
+    .max(100),
 
   description: z.string().trim().max(500).optional(),
 
@@ -9,10 +13,14 @@ export const createRecipeSchema = z.object({
 
   prepTime: z.number().int().min(0, "'Cooking time cannot be negative"),
 
+  cookTime: z.number().int().min(0, "Cooking time cannot be negative"),
+
   servings: z.number().int().min(1, "Serving must be at least 1"),
 
-  instructions: z.number().int().min(1, "Instructions must be at least 10 characters long"),
-  
+  instructions: z
+    .string()
+    .trim()
+    .min(10, "Instructions must be at least 10 characters long"),
 
   category: z.enum([
     "BREAKFAST",
@@ -21,25 +29,17 @@ export const createRecipeSchema = z.object({
     "SNACK",
     "DESSERT",
     "OTHER",
-]),
+  ]),
 
- ingredients: z
+  ingredients: z
     .array(
       z.object({
-        name: z
-          .string()
-          .trim()
-          .min(1, "Ingredient name is required"),
+        name: z.string().trim().min(1, "Ingredient name is required"),
 
-        quantity: z
-          .string()
-          .trim()
-          .min(1, "Ingredient quantity is required"),
-      }),
+        quantity: z.string().trim().min(1, "Ingredient quantity is required"),
+      })
     )
     .min(1, "At least one ingredient is required"),
-
-
 });
 
 export type CreateRecipeInput = z.infer<typeof createRecipeSchema>;
