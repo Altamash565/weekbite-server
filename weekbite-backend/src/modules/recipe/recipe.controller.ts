@@ -6,7 +6,6 @@ import { asyncHandler } from "../../utils/asyncHandler";
 import { HTTP_STATUS } from "../../constants/http";
 import { AppError } from "../../utils/AppError";
 
-
 export class RecipeController {
   private service = new RecipeService();
 
@@ -18,19 +17,14 @@ export class RecipeController {
       .json(new ApiResponse(true, "Recipe created successfully", recipe));
   });
 
-  getById = asyncHandler(async (
-    req: Request, 
-    res: Response) => {
+  getById = asyncHandler(async (req: Request, res: Response) => {
     const recipeId = req.params.id;
 
-    if(!recipeId || Array.isArray(recipeId)) {
-        throw new AppError(
-            "Invalid recipe ID",
-            HTTP_STATUS.BAD_REQUEST,
-        );
+    if (!recipeId || Array.isArray(recipeId)) {
+      throw new AppError("Invalid recipe ID", HTTP_STATUS.BAD_REQUEST);
     }
 
-    const recipe = await this.service.getRecipeById(recipeId)
+    const recipe = await this.service.getRecipeById(recipeId);
 
     res
       .status(HTTP_STATUS.OK)
