@@ -13,21 +13,20 @@ enum Role {
 }
 
 model User {
-  id        String   @id @default(uuid())
-  name      String
-  email     String   @unique
-  password  String
-  avatar    String?
+  id       String  @id @default(uuid())
+  name     String
+  email    String  @unique
+  password String
+  avatar   String?
 
-  role      Role    @default(USER)
-  
+  role Role @default(USER)
 
   isVerified Boolean @default(false)
 
-  hashedRefreshToken  String?
+  hashedRefreshToken String?
 
   recipes   Recipe[]
-  mealPlans  MealPlan[]
+  mealPlans MealPlan[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -35,45 +34,45 @@ model User {
 
 enum RecipeCategory {
   BREAKFAST
-  LUNCH 
-  DINNER 
+  LUNCH
+  DINNER
   SNACK
-  DESSERT 
+  DESSERT
   OTHER
 }
 
 model Recipe {
-  id          String          @id @default(uuid())
-  title       String
-  description String?
-  image       String?
-  prepTime    Int
-  cookTime    Int
-  servings    Int
+  id           String  @id @default(uuid())
+  title        String
+  description  String?
+  image        String?
+  prepTime     Int
+  cookTime     Int
+  servings     Int
   instructions String
 
-  category    RecipeCategory  @default(OTHER)
+  category RecipeCategory @default(OTHER)
 
-  createdById  String
-  createdBy    User           @relation(fields: [createdById], references: [id], onDelete: Cascade)
+  createdById String
+  createdBy   User   @relation(fields: [createdById], references: [id], onDelete: Cascade)
 
   ingredients Ingredient[]
   mealPlans   MealPlan[]
 
-  createdAt   DateTime       @default(now())
-  updatedAt   DateTime       @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
-model  Ingredient {
-  id       String       @id  @default(uuid())
+model Ingredient {
+  id       String @id @default(uuid())
   name     String
-  quantity  String
+  quantity String
 
-  recipeId   String
-  recipe     Recipe      @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+  recipeId String
+  recipe   Recipe @relation(fields: [recipeId], references: [id], onDelete: Cascade)
 
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 enum MealType {
@@ -85,18 +84,18 @@ enum MealType {
 
 model MealPlan {
   id       String   @id @default(uuid())
-
   date     DateTime
   mealType MealType
 
-  userId   String
-  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  recipeId   String
-  recipe     Recipe  @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+  recipeId String
+  recipe   Recipe @relation(fields: [recipeId], references: [id], onDelete: Cascade)
 
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  @@unique([userId], date, mealType)
+  @@unique([userId, date, mealType])
+  @@index([userId, date])
 }
