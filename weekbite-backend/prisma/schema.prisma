@@ -27,6 +27,7 @@ model User {
   hashedRefreshToken  String?
 
   recipes   Recipe[]
+  mealPlans  MealPlan[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -57,6 +58,7 @@ model Recipe {
   createdBy    User           @relation(fields: [createdById], references: [id], onDelete: Cascade)
 
   ingredients Ingredient[]
+  mealPlans   MealPlan[]
 
   createdAt   DateTime       @default(now())
   updatedAt   DateTime       @updatedAt
@@ -72,4 +74,29 @@ model  Ingredient {
 
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
+}
+
+enum MealType {
+  BREAKFAST
+  LUNCH
+  DINNER
+  SNACK
+}
+
+model MealPlan {
+  id       String   @id @default(uuid())
+
+  date     DateTime
+  mealType MealType
+
+  userId   String
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  recipeId   String
+  recipe     Recipe  @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  @@unique([userId], date, mealType)
 }
