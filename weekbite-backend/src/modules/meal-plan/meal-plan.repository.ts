@@ -48,7 +48,7 @@ export class MealPlanRepository {
                 userId,
                 date: {
                     gte: startDate,
-                    It: endDate,
+                    lt: endDate,
                 },
 
             },
