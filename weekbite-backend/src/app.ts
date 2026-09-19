@@ -8,6 +8,7 @@ import { env } from "./config/env";
 import { authRoutes } from "./modules/auth";
 import { recipeRoutes } from "./modules/recipe";
 import { mealPlanRoutes } from "./modules/meal-plan";
+import { groceryListRoutes } from "./modules/grocery-list";
 import {notFound} from "./middleware/notFound.middleware";
 import {errorHandler} from "./middleware/error.middleware";
 import { HTTP_STATUS } from "./constants/http";
@@ -57,7 +58,9 @@ app.use("/api/v1/auth", authRoutes)
 
 app.use("/api/v1/recipes", recipeRoutes);
 
-app.use("/api/v1/meal-plans", mealPlanRoutes)
+app.use("/api/v1/meal-plans", mealPlanRoutes);
+
+app.use("/api/v1/grocery-lists", groceryListRoutes)
 
 // Must come AFTER all routes
 app.use(notFound);
