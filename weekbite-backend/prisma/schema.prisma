@@ -27,6 +27,7 @@ model User {
 
   recipes   Recipe[]
   mealPlans MealPlan[]
+  groceryLists  GroceryList[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -99,3 +100,35 @@ model MealPlan {
   @@unique([userId, date, mealType])
   @@index([userId, date])
 }
+
+model GroceryList {
+  id          String           @id @default(uuid())
+  name        String
+  userId      String
+  user        User             @relation(fields: [userId], references: [id], onDelete: Cascade )
+  
+
+  items       GroceryItem[]
+
+  createdAt  DateTime            @default(now())
+  updatedAt  DateTime            @updatedAt
+
+
+  @@index([userId])
+}
+
+model GroceryItem {
+  id            String      @id @default(uuid())
+  name          String
+  quantity      String
+  isPurchased   Boolean     @default(false)
+
+  groceryListId  String
+  groceryList    GroceryList  @relation(fields: [groceryListId], references: [id], onDelete: Cascade)
+
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+
+  @@index([groceryListId])
+ }
