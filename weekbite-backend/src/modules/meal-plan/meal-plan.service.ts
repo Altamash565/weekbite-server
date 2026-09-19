@@ -1,33 +1,34 @@
-import { Prisma } from "../../generated/prisma/client";
+// import { Prisma } from "../../generated/prisma/client";
 import { AppError } from "../../utils/AppError";
 import { HTTP_STATUS } from "../../constants/http";
 import { MealPlanRepository} from "./meal-plan.repository";
 import type { CreateMealPlanInput, UpdateMealPlanInput } from "./meal-plan.validation";
-import { error } from "node:console";
 
 export class MealPlanService {
     private repository = new MealPlanRepository();
 
-    async createMealPlan(
-        userId: string,
-        data: CreateMealPlanInput,
+async createMealPlan(
+  userId: string,
+  data: CreateMealPlanInput,
+) {
+  try {
+    return await this.repository.create(userId, data);
+  } catch (error) {
+    if (
+      error &&
+      typeof error === "object" &&
+      "code" in error &&
+      error.code === "P2002"
     ) {
-        try {
-            return await this.repository.create(userId, data);
-        } catch {
-            if (
-                error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2002"
-            ) {
-                throw new AppError(
-                    "A meal already exists for this meal type on this date",
-                    HTTP_STATUS.CONFLICT,
-                );
-            }
-
-            throw error;
-        }
+      throw new AppError(
+        "A meal already exists for this meal type on this date",
+        HTTP_STATUS.CONFLICT,
+      );
     }
 
+    throw error;
+  }
+}
     async getMealPlanById (
         id: string,
         userId: string,
@@ -78,38 +79,41 @@ export class MealPlanService {
         return result;
     }
 
-    async updateMealPlan(
-        id: string,
-        userId: string,
-        data: UpdateMealPlanInput,
-    ) {
-        try {
-            const result = await this.repository.update(
-                id,
-                userId,
-                data,
-            );
+   async updateMealPlan(
+  id: string,
+  userId: string,
+  data: UpdateMealPlanInput,
+) {
+  try {
+    const result = await this.repository.update(
+      id,
+      userId,
+      data,
+    );
 
-            if (result.count === 0) {
-                throw new AppError(
-                    "Meal plan not found",
-                    HTTP_STATUS.NOT_FOUND,
-                );
-            }
-
-            return this.repository.findById(id, userId)
-        } catch (error) {
-            if (
-                error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2002"
-            ) {
-                throw new AppError(
-                    "A meal already exists for this meal type on this date",
-                    HTTP_STATUS.CONFLICT,
-                );
-            }
-
-            throw error;
-        }
+    if (result.count === 0) {
+      throw new AppError(
+        "Meal plan not found",
+        HTTP_STATUS.NOT_FOUND,
+      );
     }
+
+    return this.repository.findById(id, userId);
+  } catch (error) {
+    if (
+      error &&
+      typeof error === "object" &&
+      "code" in error &&
+      error.code === "P2002"
+    ) {
+      throw new AppError(
+        "A meal already exists for this meal type on this date",
+        HTTP_STATUS.CONFLICT,
+      );
+    }
+
+    throw error;
+  }
+}
 
 }

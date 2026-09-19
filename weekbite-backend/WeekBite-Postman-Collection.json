@@ -1,0 +1,357 @@
+{
+  "info": {
+    "_postman_id": "weekbite-api",
+    "name": "WeekBite API",
+    "description": "WeekBite API collection covering Health, Auth, Recipes, and Meal Plans.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5000/api/v1"
+    },
+    {
+      "key": "recipeId",
+      "value": ""
+    },
+    {
+      "key": "mealPlanId",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "Health",
+      "item": [
+        {
+          "name": "Health",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/health",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "health"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Test User\",\n  \"email\": \"test@example.com\",\n  \"password\": \"Password123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "register"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"test@example.com\",\n  \"password\": \"Password123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Me",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/auth/me",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "me"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Refresh Token",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/auth/refresh",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "refresh"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/auth/logout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "logout"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Recipes",
+      "item": [
+        {
+          "name": "Create Recipe",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Chicken Rice Bowl\",\n  \"description\": \"A simple chicken rice bowl\",\n  \"image\": \"https://example.com/chicken-rice.jpg\",\n  \"prepTime\": 10,\n  \"cookTime\": 25,\n  \"servings\": 2,\n  \"instructions\": \"Cook the rice and chicken, then combine and serve.\",\n  \"category\": \"DINNER\",\n  \"ingredients\": [\n    {\n      \"name\": \"Chicken breast\",\n      \"quantity\": \"300g\"\n    },\n    {\n      \"name\": \"Rice\",\n      \"quantity\": \"200g\"\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/recipes",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "recipes"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const data = pm.response.json()?.data;",
+                  "if (data?.id) pm.collectionVariables.set('recipeId', data.id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get My Recipes",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/recipes/my",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "recipes",
+                "my"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Recipe By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/recipes/{{recipeId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "recipes",
+                "{{recipeId}}"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Meal Plans",
+      "item": [
+        {
+          "name": "Create Meal Plan",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"date\": \"2026-09-19\",\n  \"mealType\": \"BREAKFAST\",\n  \"recipeId\": \"{{recipeId}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/meal-plans",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "meal-plans"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const data = pm.response.json()?.data;",
+                  "if (data?.id) pm.collectionVariables.set('mealPlanId', data.id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get My Meal Plans",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/meal-plans?startDate=2026-09-19&endDate=2026-09-20",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "meal-plans"
+              ],
+              "query": [
+                {
+                  "key": "startDate",
+                  "value": "2026-09-19"
+                },
+                {
+                  "key": "endDate",
+                  "value": "2026-09-20"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Meal Plan By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/meal-plans/{{mealPlanId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "meal-plans",
+                "{{mealPlanId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Update Meal Plan",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"mealType\": \"LUNCH\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/meal-plans/{{mealPlanId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "meal-plans",
+                "{{mealPlanId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete Meal Plan",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/meal-plans/{{mealPlanId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "meal-plans",
+                "{{mealPlanId}}"
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
