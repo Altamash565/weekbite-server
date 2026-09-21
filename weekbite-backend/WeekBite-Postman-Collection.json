@@ -30,12 +30,8 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/health",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "health"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["health"]
             }
           }
         }
@@ -60,13 +56,8 @@
             },
             "url": {
               "raw": "{{baseUrl}}/auth/register",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "auth",
-                "register"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "register"]
             }
           }
         },
@@ -86,13 +77,8 @@
             },
             "url": {
               "raw": "{{baseUrl}}/auth/login",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "auth",
-                "login"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "login"]
             }
           }
         },
@@ -103,13 +89,8 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/auth/me",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "auth",
-                "me"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "me"]
             }
           }
         },
@@ -120,13 +101,8 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/auth/refresh",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "auth",
-                "refresh"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "refresh"]
             }
           }
         },
@@ -137,13 +113,8 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/auth/logout",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "auth",
-                "logout"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "logout"]
             }
           }
         }
@@ -168,12 +139,8 @@
             },
             "url": {
               "raw": "{{baseUrl}}/recipes",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "recipes"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["recipes"]
             }
           },
           "event": [
@@ -196,13 +163,8 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/recipes/my",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "recipes",
-                "my"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["recipes", "my"]
             }
           }
         },
@@ -213,13 +175,8 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/recipes/{{recipeId}}",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "recipes",
-                "{{recipeId}}"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["recipes", "{{recipeId}}"]
             }
           }
         }
@@ -244,12 +201,8 @@
             },
             "url": {
               "raw": "{{baseUrl}}/meal-plans",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "meal-plans"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["meal-plans"]
             }
           },
           "event": [
@@ -272,12 +225,8 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/meal-plans?startDate=2026-09-19&endDate=2026-09-20",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "meal-plans"
-              ],
+              "host": ["{{baseUrl}}"],
+              "path": ["meal-plans"],
               "query": [
                 {
                   "key": "startDate",
@@ -298,13 +247,8 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/meal-plans/{{mealPlanId}}",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "meal-plans",
-                "{{mealPlanId}}"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["meal-plans", "{{mealPlanId}}"]
             }
           }
         },
@@ -324,13 +268,8 @@
             },
             "url": {
               "raw": "{{baseUrl}}/meal-plans/{{mealPlanId}}",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "meal-plans",
-                "{{mealPlanId}}"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["meal-plans", "{{mealPlanId}}"]
             }
           }
         },
@@ -341,13 +280,8 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/meal-plans/{{mealPlanId}}",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "meal-plans",
-                "{{mealPlanId}}"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["meal-plans", "{{mealPlanId}}"]
             }
           }
         }

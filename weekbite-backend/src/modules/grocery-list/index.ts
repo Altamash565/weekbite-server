@@ -1,1 +1,1 @@
-export {default as groceryListRoutes} from "./grocery-list.routes";
+export { default as groceryListRoutes } from "./grocery-list.routes";

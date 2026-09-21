@@ -25,9 +25,10 @@ model User {
 
   hashedRefreshToken String?
 
-  recipes   Recipe[]
-  mealPlans MealPlan[]
-  groceryLists  GroceryList[]
+  recipes      Recipe[]
+  mealPlans    MealPlan[]
+  groceryLists GroceryList[]
+  favorites    RecipeFavourite[] @relation("UserFavorites")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -59,6 +60,7 @@ model Recipe {
 
   ingredients Ingredient[]
   mealPlans   MealPlan[]
+  favorites   RecipeFavourite[] @relation("RecipeFavorites")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -102,33 +104,46 @@ model MealPlan {
 }
 
 model GroceryList {
-  id          String           @id @default(uuid())
-  name        String
-  userId      String
-  user        User             @relation(fields: [userId], references: [id], onDelete: Cascade )
-  
+  id     String @id @default(uuid())
+  name   String
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  items       GroceryItem[]
+  items GroceryItem[]
 
-  createdAt  DateTime            @default(now())
-  updatedAt  DateTime            @updatedAt
-
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([userId])
 }
 
 model GroceryItem {
-  id            String      @id @default(uuid())
-  name          String
-  quantity      String
-  isPurchased   Boolean     @default(false)
+  id          String  @id @default(uuid())
+  name        String
+  quantity    String
+  isPurchased Boolean @default(false)
 
-  groceryListId  String
-  groceryList    GroceryList  @relation(fields: [groceryListId], references: [id], onDelete: Cascade)
+  groceryListId String
+  groceryList   GroceryList @relation(fields: [groceryListId], references: [id], onDelete: Cascade)
 
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
-
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([groceryListId])
- }
+}
+
+model RecipeFavourite {
+  id String @id @default(uuid())
+
+  userId String
+  user   User   @relation("UserFavorites", fields: [userId], references: [id], onDelete: Cascade)
+
+  recipeId String
+  recipe   Recipe @relation("RecipeFavorites", fields: [recipeId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@unique([userId, recipeId])
+  @@index([userId])
+  @@index([recipeId])
+}

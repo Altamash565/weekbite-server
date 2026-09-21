@@ -2,66 +2,51 @@ import { Router } from "express";
 
 import { GroceryListController } from "./grocery-list.controller";
 import { authenticate } from "../../middleware/auth.middleware";
-import {validate} from "../../middleware/validate.middleware";
+import { validate } from "../../middleware/validate.middleware";
 import {
-    createGroceryItemSchema,
-    createGroceryListSchema,
-    updateGroceryItemSchema,
-    updateGroceryListSchema,
+  createGroceryItemSchema,
+  createGroceryListSchema,
+  updateGroceryItemSchema,
+  updateGroceryListSchema,
 } from "./grocery-list.validation";
 
 const router = Router();
 const controller = new GroceryListController();
 
 router.post(
-    "/",
-    authenticate,
-    validate(createGroceryListSchema),
-    controller.createList,
+  "/",
+  authenticate,
+  validate(createGroceryListSchema),
+  controller.createList
 );
 
-router.get(
-    "/",
-    authenticate,
-    controller.getMyLists,
-);
+router.get("/", authenticate, controller.getMyLists);
 
-router.get(
-    "/:id",
-    authenticate,
-    controller.getListById,
-);
+router.get("/:id", authenticate, controller.getListById);
 
 router.patch(
-    "/:id",
-    authenticate,
-    validate(updateGroceryListSchema),
-    controller.updateList,
+  "/:id",
+  authenticate,
+  validate(updateGroceryListSchema),
+  controller.updateList
 );
 
-router.delete(
-    "/:id",
-    authenticate,
-    controller.deleteList,
-);
+router.delete("/:id", authenticate, controller.deleteList);
 
 router.post(
-    "/:id/items",
-    authenticate,
-    validate(createGroceryItemSchema),
-    controller.addItem,
+  "/:id/items",
+  authenticate,
+  validate(createGroceryItemSchema),
+  controller.addItem
 );
 
 router.patch(
-    "/:id/item/:itemId",
-    authenticate,
-    validate(updateGroceryItemSchema),
-    controller.updateItem,
-)
-
-router.delete(
-    "/:id/items/:itemId",
-    controller.deleteItem,
+  "/:id/item/:itemId",
+  authenticate,
+  validate(updateGroceryItemSchema),
+  controller.updateItem
 );
+
+router.delete("/:id/items/:itemId", controller.deleteItem);
 
 export default router;

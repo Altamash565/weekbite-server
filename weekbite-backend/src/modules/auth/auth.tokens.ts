@@ -1,9 +1,6 @@
 import bcrypt from "bcrypt";
 
-import {
-  generateAccessToken,
-  generateRefreshToken,
-} from "../../lib/jwt";
+import { generateAccessToken, generateRefreshToken } from "../../lib/jwt";
 
 import type { JwtPayload } from "../../types/jwt.types";
 

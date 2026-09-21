@@ -1,1 +1,1 @@
-export {default as mealPlanRoutes} from "./meal-plan.routes"
+export { default as mealPlanRoutes } from "./meal-plan.routes";

@@ -1,1 +1,1 @@
-export {default as recipeRoutes} from "./recipe.routes";
+export { default as recipeRoutes } from "./recipe.routes";

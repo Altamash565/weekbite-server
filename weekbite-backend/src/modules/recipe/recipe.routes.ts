@@ -5,7 +5,6 @@ import { validate } from "../../middleware/validate.middleware";
 import { authenticate } from "../../middleware/auth.middleware";
 import { createRecipeSchema } from "./recipe.validation";
 
-
 const router = Router();
 
 const controller = new RecipeController();
@@ -16,27 +15,13 @@ const controller = new RecipeController();
 |--------------------------------------------------------------------------
 */
 
-
-// Create recipe 
-router.post(
-    "/",
-    authenticate,
-    validate(createRecipeSchema),
-    controller.create,
-);
+// Create recipe
+router.post("/", authenticate, validate(createRecipeSchema), controller.create);
 
 // Get all recipes created by logged-in user
-router.get(
-    "/my",
-    authenticate,
-    controller.getMyRecipes,
-);
+router.get("/my", authenticate, controller.getMyRecipes);
 
 // Get recipe by ID
-router.get(
-    "/:id",
-    authenticate,
-    controller.getById,
-);
+router.get("/:id", authenticate, controller.getById);
 
-export default router
+export default router;

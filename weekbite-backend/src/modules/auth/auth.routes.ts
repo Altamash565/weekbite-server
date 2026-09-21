@@ -8,33 +8,14 @@ const router = Router();
 
 const controller = new AuthController();
 
-router.post(
-    "/register",
-    validate(registerSchema),
-    controller.register
-);
+router.post("/register", validate(registerSchema), controller.register);
 
-router.post(
-    "/login",
-    validate(loginSchema),
-    controller.login,
-)
+router.post("/login", validate(loginSchema), controller.login);
 
-router.get(
-    "/me",
-    authenticate,
-    controller.me,
-)
+router.get("/me", authenticate, controller.me);
 
-router.post(
-    "/refresh",
-    controller.refresh,
-)
+router.post("/refresh", controller.refresh);
 
-router.post(
-    "/logout",
-    authenticate,
-    controller.logout,
-)
+router.post("/logout", authenticate, controller.logout);
 
 export default router;
