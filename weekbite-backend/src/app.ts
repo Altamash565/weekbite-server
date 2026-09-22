@@ -8,6 +8,7 @@ import { authRoutes } from "./modules/auth";
 import { recipeRoutes } from "./modules/recipe";
 import { mealPlanRoutes } from "./modules/meal-plan";
 import { groceryListRoutes } from "./modules/grocery-list";
+import { favoriteRoutes } from "./modules/favorites";
 import { notFound } from "./middleware/notFound.middleware";
 import { errorHandler } from "./middleware/error.middleware";
 import { HTTP_STATUS } from "./constants/http";
@@ -60,6 +61,8 @@ app.use("/api/v1/recipes", recipeRoutes);
 app.use("/api/v1/meal-plans", mealPlanRoutes);
 
 app.use("/api/v1/grocery-lists", groceryListRoutes);
+
+app.use("/api/v1/favorites", favoriteRoutes)
 
 // Must come AFTER all routes
 app.use(notFound);
