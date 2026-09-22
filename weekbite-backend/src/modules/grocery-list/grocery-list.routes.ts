@@ -41,12 +41,12 @@ router.post(
 );
 
 router.patch(
-  "/:id/item/:itemId",
+  "/:id/items/:itemId",
   authenticate,
   validate(updateGroceryItemSchema),
   controller.updateItem
 );
 
-router.delete("/:id/items/:itemId", controller.deleteItem);
+router.delete("/:id/items/:itemId", authenticate, controller.deleteItem);
 
 export default router;

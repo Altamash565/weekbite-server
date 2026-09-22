@@ -17,6 +17,19 @@
     {
       "key": "mealPlanId",
       "value": ""
+    },
+
+    {
+      "key": "anotherRecipeId",
+      "value": ""
+    },
+    {
+      "key": "groceryListId",
+      "value": ""
+    },
+    {
+      "key": "groceryItemId",
+      "value": ""
     }
   ],
   "item": [
@@ -218,6 +231,7 @@
             }
           ]
         },
+
         {
           "name": "Get My Meal Plans",
           "request": {
@@ -282,6 +296,343 @@
               "raw": "{{baseUrl}}/meal-plans/{{mealPlanId}}",
               "host": ["{{baseUrl}}"],
               "path": ["meal-plans", "{{mealPlanId}}"]
+            }
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "Grocery Lists",
+      "item": [
+        {
+          "name": "Create Grocery List",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Weekly Grocery List\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/grocery-lists",
+              "host": ["{{baseUrl}}"],
+              "path": ["grocery-lists"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const data = pm.response.json()?.data;",
+                  "if (data?.id) pm.collectionVariables.set('groceryListId', data.id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get My Grocery Lists",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/grocery-lists",
+              "host": ["{{baseUrl}}"],
+              "path": ["grocery-lists"]
+            }
+          }
+        },
+        {
+          "name": "Get Grocery List By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/grocery-lists/{{groceryListId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["grocery-lists", "{{groceryListId}}"]
+            }
+          }
+        },
+        {
+          "name": "Update Grocery List",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Updated Weekly Grocery List\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/grocery-lists/{{groceryListId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["grocery-lists", "{{groceryListId}}"]
+            }
+          }
+        },
+        {
+          "name": "Add Grocery Item - Milk",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Milk\",\n  \"quantity\": \"2 liters\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/grocery-lists/{{groceryListId}}/items",
+              "host": ["{{baseUrl}}"],
+              "path": ["grocery-lists", "{{groceryListId}}", "items"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const data = pm.response.json()?.data;",
+                  "if (data?.id) pm.collectionVariables.set('groceryItemId', data.id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Add Grocery Item - Eggs",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Eggs\",\n  \"quantity\": \"12\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/grocery-lists/{{groceryListId}}/items",
+              "host": ["{{baseUrl}}"],
+              "path": ["grocery-lists", "{{groceryListId}}", "items"]
+            }
+          }
+        },
+        {
+          "name": "Add Grocery Item - Chicken",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Chicken Breast\",\n  \"quantity\": \"500g\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/grocery-lists/{{groceryListId}}/items",
+              "host": ["{{baseUrl}}"],
+              "path": ["grocery-lists", "{{groceryListId}}", "items"]
+            }
+          }
+        },
+        {
+          "name": "Update Grocery Item",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"quantity\": \"3 liters\",\n  \"isPurchased\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/grocery-lists/{{groceryListId}}/items/{{groceryItemId}}",
+              "host": ["{{baseUrl}}"],
+              "path": [
+                "grocery-lists",
+                "{{groceryListId}}",
+                "items",
+                "{{groceryItemId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete Grocery Item",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/grocery-lists/{{groceryListId}}/items/{{groceryItemId}}",
+              "host": ["{{baseUrl}}"],
+              "path": [
+                "grocery-lists",
+                "{{groceryListId}}",
+                "items",
+                "{{groceryItemId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete Grocery List",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/grocery-lists/{{groceryListId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["grocery-lists", "{{groceryListId}}"]
+            }
+          }
+        },
+        {
+          "name": "Get Deleted Grocery List - Expected 404",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/grocery-lists/{{groceryListId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["grocery-lists", "{{groceryListId}}"]
+            }
+          }
+        },
+        {
+          "name": "Grocery Edge - Invalid Item Data",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"\",\n  \"quantity\": \"\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/grocery-lists/{{groceryListId}}/items",
+              "host": ["{{baseUrl}}"],
+              "path": ["grocery-lists", "{{groceryListId}}", "items"]
+            }
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "Favorites",
+      "item": [
+        {
+          "name": "Add Favorite",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/favorites/{{recipeId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["favorites", "{{recipeId}}"]
+            }
+          }
+        },
+        {
+          "name": "Get My Favorites",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/favorites",
+              "host": ["{{baseUrl}}"],
+              "path": ["favorites"]
+            }
+          }
+        },
+        {
+          "name": "Add Duplicate Favorite - Expected 409",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/favorites/{{recipeId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["favorites", "{{recipeId}}"]
+            }
+          }
+        },
+        {
+          "name": "Add Another Favorite",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/favorites/{{anotherRecipeId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["favorites", "{{anotherRecipeId}}"]
+            }
+          }
+        },
+        {
+          "name": "Remove Favorite",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/favorites/{{recipeId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["favorites", "{{recipeId}}"]
+            }
+          }
+        },
+        {
+          "name": "Remove Favorite Again - Expected 404",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/favorites/{{recipeId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["favorites", "{{recipeId}}"]
+            }
+          }
+        },
+        {
+          "name": "Favorite Nonexistent Recipe - Expected 404",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/favorites/00000000-0000-0000-0000-000000000000",
+              "host": ["{{baseUrl}}"],
+              "path": ["favorites", "00000000-0000-0000-0000-000000000000"]
             }
           }
         }

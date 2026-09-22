@@ -54,7 +54,7 @@ export class GroceryListService {
     userId: string,
     data: CreateGroceryItemInput
   ) {
-    const groceryList = await this.repository.findItemById(
+    const groceryList = await this.repository.findListById(
       groceryListId,
       userId
     );
