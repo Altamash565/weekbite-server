@@ -62,7 +62,7 @@ app.use("/api/v1/meal-plans", mealPlanRoutes);
 
 app.use("/api/v1/grocery-lists", groceryListRoutes);
 
-app.use("/api/v1/favorites", favoriteRoutes)
+app.use("/api/v1/favorites", favoriteRoutes);
 
 // Must come AFTER all routes
 app.use(notFound);

@@ -1,1 +1,1 @@
-export {default as favoriteRoutes} from "./favorite.routes";
+export { default as favoriteRoutes } from "./favorite.routes";
