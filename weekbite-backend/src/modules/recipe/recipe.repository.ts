@@ -1,5 +1,5 @@
 import { prisma } from "../../lib/prisma";
-import type { CreateRecipeInput } from "./recipe.validation";
+import type { CreateRecipeInput, UpdateRecipeInput } from "./recipe.validation";
 
 export class RecipeRepository {
   async create(userId: string, data: CreateRecipeInput) {
@@ -61,6 +61,39 @@ export class RecipeRepository {
 
       orderBy: {
         createdAt: "desc",
+      },
+    });
+  }
+
+  async update(recipeId: string, userId: string, data: UpdateRecipeInput) {
+    return prisma.recipe.update({
+      where: {
+        id: recipeId,
+        createdById: userId,
+      },
+
+      data: {
+        title: data.title,
+        description: data.description,
+        image: data.image,
+        prepTime: data.prepTime,
+        cookTime: data.cookTime,
+        servings: data.servings,
+        instructions: data.instructions,
+        category: data.category,
+      },
+
+      include: {
+        ingredients: true,
+      },
+    });
+  }
+
+  async delete(recipeId: string, userId: string) {
+    return prisma.recipe.delete({
+      where: {
+        id: recipeId,
+        createdById: userId,
       },
     });
   }

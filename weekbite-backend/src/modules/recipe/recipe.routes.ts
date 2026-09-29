@@ -3,7 +3,7 @@ import { Router } from "express";
 import { RecipeController } from "./recipe.controller";
 import { validate } from "../../middleware/validate.middleware";
 import { authenticate } from "../../middleware/auth.middleware";
-import { createRecipeSchema } from "./recipe.validation";
+import { createRecipeSchema, updateRecipeSchema } from "./recipe.validation";
 
 const router = Router();
 
@@ -23,5 +23,16 @@ router.get("/my", authenticate, controller.getMyRecipes);
 
 // Get recipe by ID
 router.get("/:id", authenticate, controller.getById);
+
+// Update recipe
+router.patch(
+  "/:id",
+  authenticate,
+  validate(updateRecipeSchema),
+  controller.update
+);
+
+// Delete recipe
+router.delete("/:id", authenticate, controller.delete);
 
 export default router;

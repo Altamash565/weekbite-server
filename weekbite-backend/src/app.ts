@@ -4,11 +4,7 @@ import helmet from "helmet";
 import cookieParser from "cookie-parser";
 
 import { env } from "./config/env";
-import { authRoutes } from "./modules/auth";
-import { recipeRoutes } from "./modules/recipe";
-import { mealPlanRoutes } from "./modules/meal-plan";
-import { groceryListRoutes } from "./modules/grocery-list";
-import { favoriteRoutes } from "./modules/favorites";
+import router from "./routes";
 import { notFound } from "./middleware/notFound.middleware";
 import { errorHandler } from "./middleware/error.middleware";
 import { HTTP_STATUS } from "./constants/http";
@@ -54,15 +50,19 @@ app.get("/api/v1/health", (_, res) => {
   });
 });
 
-app.use("/api/v1/auth", authRoutes);
+/*
+|------------------------------------------------------------------------
+| API Routes
+|------------------------------------------------------------------------
+*/
 
-app.use("/api/v1/recipes", recipeRoutes);
+app.use("/api/v1", router);
 
-app.use("/api/v1/meal-plans", mealPlanRoutes);
-
-app.use("/api/v1/grocery-lists", groceryListRoutes);
-
-app.use("/api/v1/favorites", favoriteRoutes);
+/*
+|------------------------------------------------------------------------
+| Error Handling
+|------------------------------------------------------------------------
+*/
 
 // Must come AFTER all routes
 app.use(notFound);

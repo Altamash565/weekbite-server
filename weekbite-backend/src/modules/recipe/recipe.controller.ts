@@ -38,4 +38,47 @@ export class RecipeController {
       .status(HTTP_STATUS.OK)
       .json(new ApiResponse(true, "Recipes fetched successfully", recipes));
   });
+
+  update = asyncHandler(async (req: Request, res: Response) => {
+    const recipeId = req.params.id;
+
+
+    if (!recipeId || Array.isArray(recipeId)) {
+      throw new AppError(
+        "Invalid recipe ID",
+        HTTP_STATUS.BAD_REQUEST,
+      );
+    }
+
+    const recipe = await this.service.updateRecipe(
+      recipeId,
+      req.user!.userId,
+      req.body,
+    );
+
+    res
+    .status(HTTP_STATUS.OK)
+    .json(new ApiResponse(true, "Recipe updated successfully", recipe));
+
+  });
+
+  delete = asyncHandler(async (req: Request, res: Response) => {
+    const recipeId = req.params.id;
+
+    if (!recipeId || Array.isArray(recipeId)) {
+      throw new AppError(
+        "Invalid recipe ID",
+        HTTP_STATUS.BAD_REQUEST,
+      );
+    }
+
+    await this.service.deleteRecipe(
+      recipeId,
+      req.user!.userId,
+    );
+
+
+    res.status(HTTP_STATUS.OK)
+    .json(new ApiResponse(true, "Recipe deleted successfully", null));
+  });
 }
