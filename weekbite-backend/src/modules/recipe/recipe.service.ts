@@ -34,10 +34,10 @@ export class RecipeService {
     const recipe = await this.repository.findById(recipeId);
 
     if (!recipe) {
-      throw new AppError("Recipe not found", HTTP_STATUS.NOT_FOUND)
+      throw new AppError("Recipe not found", HTTP_STATUS.NOT_FOUND);
     }
 
-    if(recipe.createdById !== userId) {
+    if (recipe.createdById !== userId) {
       throw new AppError(
         "You are not allowed to update this recipe",
         HTTP_STATUS.FORBIDDEN

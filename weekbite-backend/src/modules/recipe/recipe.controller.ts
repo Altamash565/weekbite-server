@@ -42,43 +42,32 @@ export class RecipeController {
   update = asyncHandler(async (req: Request, res: Response) => {
     const recipeId = req.params.id;
 
-
     if (!recipeId || Array.isArray(recipeId)) {
-      throw new AppError(
-        "Invalid recipe ID",
-        HTTP_STATUS.BAD_REQUEST,
-      );
+      throw new AppError("Invalid recipe ID", HTTP_STATUS.BAD_REQUEST);
     }
 
     const recipe = await this.service.updateRecipe(
       recipeId,
       req.user!.userId,
-      req.body,
+      req.body
     );
 
     res
-    .status(HTTP_STATUS.OK)
-    .json(new ApiResponse(true, "Recipe updated successfully", recipe));
-
+      .status(HTTP_STATUS.OK)
+      .json(new ApiResponse(true, "Recipe updated successfully", recipe));
   });
 
   delete = asyncHandler(async (req: Request, res: Response) => {
     const recipeId = req.params.id;
 
     if (!recipeId || Array.isArray(recipeId)) {
-      throw new AppError(
-        "Invalid recipe ID",
-        HTTP_STATUS.BAD_REQUEST,
-      );
+      throw new AppError("Invalid recipe ID", HTTP_STATUS.BAD_REQUEST);
     }
 
-    await this.service.deleteRecipe(
-      recipeId,
-      req.user!.userId,
-    );
+    await this.service.deleteRecipe(recipeId, req.user!.userId);
 
-
-    res.status(HTTP_STATUS.OK)
-    .json(new ApiResponse(true, "Recipe deleted successfully", null));
+    res
+      .status(HTTP_STATUS.OK)
+      .json(new ApiResponse(true, "Recipe deleted successfully", null));
   });
 }
