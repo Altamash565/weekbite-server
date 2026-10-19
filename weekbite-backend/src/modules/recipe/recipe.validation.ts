@@ -11,7 +11,7 @@ export const createRecipeSchema = z.object({
 
   image: z.url("Invalid image URL").optional(),
 
-  prepTime: z.number().int().min(0, "'Cooking time cannot be negative"),
+  prepTime: z.number().int().min(0, "Cooking time cannot be negative"),
 
   cookTime: z.number().int().min(0, "Cooking time cannot be negative"),
 
@@ -48,3 +48,23 @@ export type CreateRecipeInput = z.infer<typeof createRecipeSchema>;
 export const updateRecipeSchema = createRecipeSchema.partial();
 
 export type UpdateRecipeInput = z.infer<typeof updateRecipeSchema>;
+
+export const getRecipesQuerySchema = z.object({
+  search: z.string().trim().optional(),
+
+  category: z
+    .enum(["BREAKFAST", "LUNCH", "DINNER", "SNACK", "DESSERT", "OTHER"])
+    .optional(),
+
+  page: z.coerce.number().int().min(1).default(1),
+
+  limit: z.coerce.number().int().min(1).max(100).default(10),
+
+  sortBy: z
+    .enum(["createdAt", "title", "prepTime", "cookTime"])
+    .default("createdAt"),
+
+  sortOrder: z.enum(["asc", "desc"]).default("desc"),
+});
+
+export type GetRecipesQuery = z.infer<typeof getRecipesQuerySchema>;
