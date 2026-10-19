@@ -2,7 +2,7 @@ import { AppError } from "../../utils/AppError";
 import { HTTP_STATUS } from "../../constants/http";
 import { RecipeRepository } from "./recipe.repository";
 import type { CreateRecipeInput, UpdateRecipeInput } from "./recipe.validation";
-
+import type { GetRecipesQuery } from "./recipe.validation";
 export class RecipeService {
   private repository = new RecipeRepository();
 
@@ -62,5 +62,9 @@ export class RecipeService {
     }
 
     await this.repository.delete(recipeId, userId);
+  }
+
+  async getRecipes(query: GetRecipesQuery) {
+    return this.repository.findMany(query);
   }
 }

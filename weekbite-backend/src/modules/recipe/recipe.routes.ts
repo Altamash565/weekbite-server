@@ -19,6 +19,8 @@ const controller = new RecipeController();
 router.post("/", authenticate, validate(createRecipeSchema), controller.create);
 
 // Get all recipes created by logged-in user
+router.get("/", controller.getAll);
+
 router.get("/my", authenticate, controller.getMyRecipes);
 
 // Get recipe by ID

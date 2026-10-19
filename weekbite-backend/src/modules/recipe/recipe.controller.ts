@@ -5,6 +5,7 @@ import { ApiResponse } from "../../utils/ApiResponse";
 import { asyncHandler } from "../../utils/asyncHandler";
 import { HTTP_STATUS } from "../../constants/http";
 import { AppError } from "../../utils/AppError";
+import { getRecipesQuerySchema } from "./recipe.validation";
 
 export class RecipeController {
   private service = new RecipeService();
@@ -69,5 +70,22 @@ export class RecipeController {
     res
       .status(HTTP_STATUS.OK)
       .json(new ApiResponse(true, "Recipe deleted successfully", null));
+  });
+
+  getAll = asyncHandler(async (req: Request, res: Response) => {
+    const parsedQuery = getRecipesQuerySchema.safeParse(req.query);
+
+    if (!parsedQuery.success) {
+      throw new AppError(
+        "Invalid recipe query parameters",
+        HTTP_STATUS.BAD_REQUEST
+      );
+    }
+
+    const result = await this.service.getRecipes(parsedQuery.data);
+
+    res
+      .status(HTTP_STATUS.OK)
+      .json(new ApiResponse(true, "Recipes fetched successfully", result));
   });
 }

@@ -1,6 +1,8 @@
 import { prisma } from "../../lib/prisma";
 import type { CreateRecipeInput, UpdateRecipeInput } from "./recipe.validation";
 
+import type { GetRecipesQuery } from "./recipe.validation";
+
 export class RecipeRepository {
   async create(userId: string, data: CreateRecipeInput) {
     return prisma.recipe.create({
@@ -96,5 +98,56 @@ export class RecipeRepository {
         createdById: userId,
       },
     });
+  }
+
+  async findMany(query: GetRecipesQuery) {
+    const { search, category, page, limit, sortBy, sortOrder } = query;
+
+    const where = {
+      ...(search && {
+        title: {
+          contains: search,
+          mode: "insensitive" as const,
+        },
+      }),
+      ...(category && { category }),
+    };
+
+    const orderBy =
+      sortBy === "title"
+        ? { title: sortOrder }
+        : sortBy === "prepTime"
+          ? { prepTime: sortOrder }
+          : sortBy === "cookTime"
+            ? { cookTime: sortOrder }
+            : { createdAt: sortOrder };
+
+    const [recipes, total] = await prisma.$transaction([
+      prisma.recipe.findMany({
+        where,
+        include: {
+          createdBy: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+        },
+        orderBy,
+        skip: (page - 1) * limit,
+        take: limit,
+      }),
+      prisma.recipe.count({ where }),
+    ]);
+
+    return {
+      recipes,
+      pagination: {
+        page,
+        limit,
+        total,
+        totalPages: Math.ceil(total / limit),
+      },
+    };
   }
 }
