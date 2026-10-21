@@ -21,5 +21,21 @@ export const loginSchema = z.object({
   password: z.string().min(8),
 });
 
+export const updateProfileSchema = z
+  .object({
+    name: z
+      .string()
+      .trim()
+      .min(3, "Name must be at least 3 characters long")
+      .max(50)
+      .optional(),
+
+    avatar: z.url("Invalid avatar URL").nullable().optional(),
+  })
+  .refine((data) => data.name !== undefined || data.avatar !== undefined, {
+    message: "At least one field must be provided",
+  });
+
 export type RegisterInput = z.infer<typeof registerSchema>;
 export type LoginInput = z.infer<typeof loginSchema>;
+export type UpdateProfileInput = z.infer<typeof updateProfileSchema>;

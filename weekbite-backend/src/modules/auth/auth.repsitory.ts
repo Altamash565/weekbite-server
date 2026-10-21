@@ -65,4 +65,27 @@ export class AuthRepository {
       },
     });
   }
+
+  async updateProfile(
+    userId: string,
+    data: { name?: string; avatar?: string | null }
+  ) {
+    return prisma.user.update({
+      where: { id: userId },
+      data: {
+        ...(data.name !== undefined && { name: data.name }),
+        ...(data.avatar !== undefined && { avatar: data.avatar }),
+      },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        avatar: true,
+        role: true,
+        isVerified: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
+  }
 }

@@ -1,7 +1,11 @@
 import { Router } from "express";
 import { AuthController } from "./auth.controller";
 import { validate } from "../../middleware/validate.middleware";
-import { loginSchema, registerSchema } from "./auth.validation";
+import {
+  loginSchema,
+  registerSchema,
+  updateProfileSchema,
+} from "./auth.validation";
 import { authenticate } from "../../middleware/auth.middleware";
 
 const router = Router();
@@ -17,5 +21,11 @@ router.get("/me", authenticate, controller.me);
 router.post("/refresh", controller.refresh);
 
 router.post("/logout", authenticate, controller.logout);
+
+router.patch(
+  "/profile",
+  validate(updateProfileSchema),
+  controller.updateProfile
+);
 
 export default router;

@@ -6,6 +6,7 @@ import { HTTP_STATUS } from "../../constants/http";
 import { createAuthTokens } from "./auth.tokens";
 import { verifyRefreshToken } from "../../lib/jwt";
 import type { JwtPayload } from "../../types/jwt.types";
+import type { UpdateProfileInput } from "./auth.validation";
 
 export class AuthService {
   private repository = new AuthRepository();
@@ -125,5 +126,15 @@ export class AuthService {
 
   async logout(userId: string) {
     await this.repository.clearRefreshToken(userId);
+  }
+
+  async updateProfile(userId: string, data: UpdateProfileInput) {
+    const user = await this.repository.findById(userId);
+
+    if (!user) {
+      throw new AppError("User not found", HTTP_STATUS.NOT_FOUND);
+    }
+
+    return this.repository.updateProfile(userId, data);
   }
 }

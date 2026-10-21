@@ -8,7 +8,6 @@ import {
   clearCookieOptions,
   refreshTokenCookieOptions,
 } from "../../constants/cookies";
-
 export class AuthController {
   private service = new AuthService();
 
@@ -61,5 +60,13 @@ export class AuthController {
     res.clearCookie("refreshToken", clearCookieOptions);
 
     res.status(HTTP_STATUS.OK).json(new ApiResponse(true, "Logout successful"));
+  });
+
+  updateProfile = asyncHandler(async (req: Request, res: Response) => {
+    const user = await this.service.updateProfile(req.user!.userId, req.body);
+
+    res
+      .status(HTTP_STATUS.OK)
+      .json(new ApiResponse(true, "Profile updated successfully", user));
   });
 }
